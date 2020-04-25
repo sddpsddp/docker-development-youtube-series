@@ -1,4 +1,4 @@
-hostPathVolumedef pkg
+def pkg
 def publishVersion
 def label = "jenkins-slave"
 
