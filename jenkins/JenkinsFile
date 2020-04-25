@@ -2,7 +2,7 @@ def pkg
 def publishVersion
 def label = "jenkins-slave"
 
-podTemplate (label: label,  containers: [
+podTemplate (label: label, idleMinutes: 60, containers: [
                containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', ttyEnabled: true),
              ],
 volumes: [
