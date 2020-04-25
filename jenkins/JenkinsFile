@@ -1,12 +1,33 @@
-node('jenkins-slave') {
-    
-     stage('test pipeline') {
-        sh(script: """
-            echo "hello"
-           git clone https://github.com/sddpsddp/docker-development-youtube-series.git
-           cd ./docker-development-youtube-series/golang
-           
-           docker build . -t test
-        """)
-    }
-}
+def pkg
+def publishVersion
+def label = "jenkins-slave"
+
+podTemplate (label: label, idleMinutes: 2160, containers: [
+               containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', ttyEnabled: true),
+             ]) {
+             
+  node(label) {
+    def repo = checkout scm
+              {
+      try {
+        stage("Test if secrets exist") {
+          container('jnlp') {
+            echo "kubectl cluster-info"
+            echo "./deploy/sanity-check.sh"
+          }
+        }
+        
+        stage("Deployment") {
+          if (repo.GIT_BRANCH == "master") {
+           container('kubernetes') {
+             echo "cd eco-as; find . -name '*templates*' -prune -o -name '*.yaml' -exec kubectl apply -f \\{\\} \\;"
+           }
+          }
+        }
+      }
+      }
+
+
+
+
+
