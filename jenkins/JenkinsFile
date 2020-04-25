@@ -5,10 +5,11 @@ def label = "jenkins-slave"
 podTemplate (label: label, idleMinutes: 2160, containers: [
                containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', ttyEnabled: true),
              ]) {
-             
+
   node(label) {
     def repo = checkout scm
               {
+
       try {
         stage("Test if secrets exist") {
           container('jnlp') {
@@ -16,18 +17,25 @@ podTemplate (label: label, idleMinutes: 2160, containers: [
             echo "./deploy/sanity-check.sh"
           }
         }
-        
+
         stage("Deployment") {
           if (repo.GIT_BRANCH == "master") {
-           container('kubernetes') {
+           container('jnlp') {
              echo "cd eco-as; find . -name '*templates*' -prune -o -name '*.yaml' -exec kubectl apply -f \\{\\} \\;"
            }
           }
         }
       }
-      }
-
-
+      catch(Exception ex) { currentBuild = "FAILURE" }
+      finally { 
+        if (currentBuild.result == 'FAILURE') {
+          office365ConnectorSend(
+          message: "Build failed in project ${env.JOB_NAME}",
+          status: "FAILURE",
+          webhookUrl: "${env.HYPER_TEAMS_WEBHOOK}",
+          color: "d31547"
+          )
+        }
 
 
 
