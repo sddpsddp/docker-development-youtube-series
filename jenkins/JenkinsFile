@@ -4,11 +4,17 @@ def label = "jenkins-slave"
 
 podTemplate (label: label, idleMinutes: 2160, containers: [
                containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', ttyEnabled: true),
-             ]) {
+             ],
+volumes: [
+  secretVolume(mountPath: '/var/run/docker.sock', secretName: '/var/run/docker.sock'),
+]) {
 
   node(label) {
     def repo = checkout scm
-              {
+
+    withEnv([
+             'KUBECONFIG=/mnt/kubeconfig/kubeconfig.json'
+            ]) {
 
       try {
         stage("Test if secrets exist") {
@@ -21,7 +27,7 @@ podTemplate (label: label, idleMinutes: 2160, containers: [
         stage("Deployment") {
           if (repo.GIT_BRANCH == "master") {
            container('jnlp') {
-             echo "cd eco-as; find . -name '*templates*' -prune -o -name '*.yaml' -exec kubectl apply -f \\{\\} \\;"
+             echo "find . -name '*templates*' -prune -o -name '*.yaml' -exec kubectl apply -f \\{\\} \\;"
            }
           }
         }
@@ -36,6 +42,8 @@ podTemplate (label: label, idleMinutes: 2160, containers: [
           color: "d31547"
           )
         }
-
-
+      }
+    }
+  }
+}
 
