@@ -6,7 +6,7 @@ podTemplate (label: label, idleMinutes: 2160, containers: [
                containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', ttyEnabled: true),
              ],
 volumes: [
-  hostPath(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+  HostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
 ]) {
 
   node(label) {
