@@ -17,10 +17,17 @@ volumes: [
             ]) {
 
       try {
-        stage("Test if secrets exist") {
+        stage("Test pipeline") {
           container('jnlp') {
-            echo "kubectl cluster-info"
-            echo "./deploy/sanity-check.sh"
+            echo "testing pod template"
+            sh(script: """
+                echo "hello, i am CKA certified"
+                git clone https://github.com/marcel-dempers/docker-development-youtube-series.git
+                cd ./docker-development-youtube-series/golang
+                
+                docker build . -t test
+                """)
+                
           }
         }
 
