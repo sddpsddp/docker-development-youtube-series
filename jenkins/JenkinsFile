@@ -3,7 +3,7 @@ def publishVersion
 def label = "jenkins-slave01"
 
 podTemplate (label: label, idleMinutes: 60, containers: [
-               containerTemplate(name: 'jnlp', image: 'sudheer0222/busybox:2.0.0',  ttyEnabled: true),
+               containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', runAsUser: '0',  ttyEnabled: true),
              ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -22,7 +22,7 @@ volumes: [
             echo "testing pod template"
             sh(script: """
                 echo "hello, i am CKA certified"
-                sh "kubectl version --short"
+                echo "kubectl version --short"
                 git clone https://github.com/marcel-dempers/docker-development-youtube-series.git
                 cd ./docker-development-youtube-series/golang
                 
