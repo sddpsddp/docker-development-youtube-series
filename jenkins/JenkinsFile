@@ -3,7 +3,7 @@ def publishVersion
 def label = "jenkins-slave01"
 
 podTemplate (label: label, idleMinutes: 60, containers: [
-               containerTemplate(name: 'jnlp', image: 'sudheer0222/busybox:1.9.8',  ttyEnabled: true),
+               containerTemplate(name: 'jnlp', image: 'sudheer0222/busybox:2.0.0',  ttyEnabled: true),
              ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
