@@ -24,9 +24,9 @@ volumes: [
                 echo "hello, i am CKA certified"
                 echo "kubectl version --short"
                 git clone https://github.com/marcel-dempers/docker-development-youtube-series.git
-                cd ./docker-development-youtube-series/golang
+                cd ./docker-development-youtube-series/jenkins/dockerfiles
                 
-                docker build dockerfiles/ -t dockernaveensddp/jnlp:1.0.0
+                docker build . -t dockernaveensddp/jnlp:2.0.0
                 docker login -u dockernaveensddp -p sddpsddp44
                 docker push dockernaveensddp/jnlp:2.0.0
                 
