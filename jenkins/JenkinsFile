@@ -3,7 +3,7 @@ def publishVersion
 def label = "jenkins-slave02"
 
 podTemplate (label: label, idleMinutes: 60, containers: [
-               containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', runAsUser: '0', ttyEnabled: true),
+               containerTemplate(name: 'jnlp', image: 'dockernaveensddp/jnlp:1.0.0', runAsUser: '0', ttyEnabled: true),
              ],
 annotations: [
 podAnnotation(key: 'name', value: 'sidecar.istio.io/inject: "false"'),
