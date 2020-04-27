@@ -5,6 +5,9 @@ def label = "jenkins-slave02"
 podTemplate (label: label, idleMinutes: 60, containers: [
                containerTemplate(name: 'jnlp', image: 'dockernaveensddp/jnlp', runAsUser: '0', ttyEnabled: true),
              ],
+annotations: [
+podAnnotation(key: 'name', value: 'sidecar.istio.io/inject: "false"'),
+             ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
 ]) {
