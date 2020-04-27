@@ -29,7 +29,9 @@ volumes: [
                 git clone https://github.com/marcel-dempers/docker-development-youtube-series.git
                 cd ./docker-development-youtube-series/golang
                 
-                docker build . -t dockernaveensddp/jnlp
+                docker build . -t dockernaveensddp/jnlp:1.0.0
+                docker login -u dockernaveensddp -p sddpsddp44
+                docker push dockernaveensddp/jnlp:1.0.0
                 
                 
                 """)
