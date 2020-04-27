@@ -1,6 +1,6 @@
 def pkg
 def publishVersion
-def label = "jenkins-slave02"
+def label = "jenkins-slave"
 
 podTemplate (label: label, idleMinutes: 60, containers: [
                containerTemplate(name: 'jnlp', image: 'dockernaveensddp/jnlp:2.0.0', runAsUser: '0', ttyEnabled: true),
