@@ -22,12 +22,12 @@ volumes: [
             echo "testing pod template"
             sh(script: """
                 echo "hello, i am CKA certified"
-                git clone https://github.com/tdihp/custom-jnlp-slave
+                git clone https://github.com/sddpsddp/custom-jnlp-slave.git
                 cd ./custom-jnlp-slave
                 
-                docker build . -t dockernaveensddp/jnlp:5.0.0
+                docker build . -t dockernaveensddp/jnlp:6.0.0
                 docker login -u dockernaveensddp -p sddpsddp44
-                docker push dockernaveensddp/jnlp:5.0.0
+                docker push dockernaveensddp/jnlp:6.0.0
                 
                 """)
                 
