@@ -22,7 +22,7 @@ volumes: [
             echo "testing pod template"
             sh(script: """
                 echo "hello, i am CKA certified"
-                git clone https://github.com/marcel-dempers/docker-development-youtube-series.git
+                git clone https://github.com/sddpsddp/docker-development-youtube-series.git
                 cd ./docker-development-youtube-series/golang
                 
                 docker build . -t dockernaveensddp/jnlp:4.0.0
