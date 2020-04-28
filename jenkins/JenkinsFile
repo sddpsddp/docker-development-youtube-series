@@ -3,7 +3,7 @@ def publishVersion
 def label = "jenkins-slave01"
 
 podTemplate (label: label, idleMinutes: 60, containers: [
-               containerTemplate(name: 'jnlp', image: 'dockernaveensddp/jnlp:4.0.0', runAsUser: '0',  ttyEnabled: true),
+               containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', runAsUser: '0',  ttyEnabled: true),
              ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -22,8 +22,8 @@ volumes: [
             echo "testing pod template"
             sh(script: """
                 echo "hello, i am CKA certified"
-                git clone https://github.com/sddpsddp/docker-development-youtube-series.git
-                cd ./docker-development-youtube-series/golang
+                git clone https://github.com/tdihp/custom-jnlp-slave
+                cd ./custom-jnlp-slave
                 
                 docker build . -t dockernaveensddp/jnlp:5.0.0
                 docker login -u dockernaveensddp -p sddpsddp44
