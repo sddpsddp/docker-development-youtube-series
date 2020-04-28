@@ -3,7 +3,7 @@ def publishVersion
 def label = "jenkins-slave01"
 
 podTemplate (label: label, idleMinutes: 60, containers: [
-               containerTemplate(name: 'jnlp', image: 'jenkinsci/jnlp-slave', runAsUser: '0',  ttyEnabled: true),
+               containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', runAsUser: '0',  ttyEnabled: true),
              ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -25,7 +25,10 @@ volumes: [
                 git clone https://github.com/marcel-dempers/docker-development-youtube-series.git
                 cd ./docker-development-youtube-series/golang
                 
-                docker build . -t test
+                docker build . -t dockernaveensddp/jnlp:4.0.0
+                docker login -u dockernaveensddp -p sddpsddp44
+                docker push dockernaveensddp/jnlp:4.0.0
+                
                 """)
                 
           }
