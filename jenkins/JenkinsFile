@@ -4,6 +4,7 @@ def label = "jenkins-slave01"
 
 podTemplate (label: label, idleMinutes: 60, containers: [
                containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', runAsUser: '0',  ttyEnabled: true),
+               containerTemplate(name: 'kubernetes', image: 'dockernaveensddp/jnlp:2.0.0', ttyEnabled: true, command: 'cat'),
              ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -25,9 +26,7 @@ volumes: [
                 git clone https://github.com/sddpsddp/custom-jnlp-slave.git
                 cd ./custom-jnlp-slave
                 
-                docker build . -t dockernaveensddp/jnlp:8.0.0
-                docker login -u dockernaveensddp -p sddpsddp44
-                docker push dockernaveensddp/jnlp:8.0.0
+                echo "kkkkkk"
                 
                 
                 """)
@@ -37,8 +36,9 @@ volumes: [
 
         stage("Deployment") {
           if (repo.GIT_BRANCH == "master") {
-           container('jnlp') {
+           container('kubernetes') {
              echo "find . -name '*templates*' -prune -o -name '*.yaml' -exec kubectl apply -f \\{\\} \\;"
+             echo "kubetnetes container"
            }
           }
         }
