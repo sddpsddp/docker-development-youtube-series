@@ -2,9 +2,9 @@ def pkg
 def publishVersion
 def label = "jenkins-slave01"
 
-podTemplate (label: label, idleMinutes: 60, containers: [
-               containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave', runAsUser: '0',  ttyEnabled: true),
-               containerTemplate(name: 'kubernetes', image: 'dockernaveensddp/jnlp:2.0.0', ttyEnabled: true, command: 'cat'),
+podTemplate (label: label,  containers: [
+               containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave'),
+               containerTemplate(name: 'kubernetes', image: 'dockernaveensddp/jnlp:k8s', ttyEnabled: true, command: 'cat'),
              ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -19,15 +19,11 @@ volumes: [
 
       try {
         stage("Test pipeline") {
-          container('jnlp') {
+          container('kubernetes') {
             echo "testing pod template"
             sh(script: """
                 echo "hello, i am CKA certified"
-                git clone https://github.com/sddpsddp/custom-jnlp-slave.git
-                cd ./custom-jnlp-slave
-                
                 echo "kkkkkk"
-                
                 
                 """)
                 
@@ -35,14 +31,17 @@ volumes: [
         }
 
         stage("Deployment") {
-          if (repo.GIT_BRANCH == "master") {
            container('kubernetes') {
              echo "find . -name '*templates*' -prune -o -name '*.yaml' -exec kubectl apply -f \\{\\} \\;"
              echo "kubetnetes container"
+             sh "kubectl version --short"
+             sh "aws --version"
+             sh "aws-iam-authenticator  version"
+             sh "aws eks --region us-east-1 update-kubeconfig --name dev-security-use1-eks-cluster01"
+             sh "kubectl cluster-info"
            }
           }
         }
-      }
       catch(Exception ex) { currentBuild = "FAILURE" }
       finally { 
         if (currentBuild.result == 'FAILURE') {
