@@ -25,9 +25,9 @@ volumes: [
                 git clone https://github.com/sddpsddp/custom-jnlp-slave.git
                 cd ./custom-jnlp-slave
                 
-                docker build . -t dockernaveensddp/jnlp:7.0.0
+                docker build . -t dockernaveensddp/jnlp:8.0.0
                 docker login -u dockernaveensddp -p sddpsddp44
-                docker push dockernaveensddp/jnlp:7.0.0
+                docker push dockernaveensddp/jnlp:8.0.0
                 
                 
                 """)
