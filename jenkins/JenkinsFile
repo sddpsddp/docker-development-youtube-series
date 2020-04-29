@@ -28,6 +28,7 @@ volumes: [
                 echo "docker build . -t dockernaveensddp/jnlp:6.0.0"
                 echo "docker login -u dockernaveensddp -p sddpsddp44"
                 echo "docker push dockernaveensddp/jnlp:6.0.0"
+                sh "chmod +x /usr/local/bin/kubectl"
                 sh "kubectl version --short"
                 
                 """)
