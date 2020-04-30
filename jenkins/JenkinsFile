@@ -4,7 +4,7 @@ def label = "jenkins-slave01"
 
 podTemplate (label: label,  containers: [
                containerTemplate(name: 'jnlp', image: 'aimvector/jenkins-slave'),
-               containerTemplate(name: 'kubernetes', image: 'dockernaveensddp/jnlp:k8s', ttyEnabled: true, command: 'cat'),
+               containerTemplate(name: 'kubernetes', image: 'alpine/k8s:1.11.10', ttyEnabled: true, command: 'cat'),
              ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -36,6 +36,9 @@ volumes: [
              echo "kubetnetes container"
              sh "kubectl version --short"
              sh "aws --version"
+             sh "aws configure set aws_access_key_id  ${AWS_KEY}"
+             sh "aws configure set aws_secret_access_key ${AWS_SECRET}"
+             sh "aws configure set default.region ${AWS_REGION}"
              sh "aws-iam-authenticator  version"
              sh "aws eks --region us-east-1 update-kubeconfig --name dev-security-use1-eks-cluster01"
              sh "kubectl cluster-info"
